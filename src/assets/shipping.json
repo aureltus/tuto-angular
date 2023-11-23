@@ -1,0 +1,14 @@
+[
+  {
+    "type": "De nuit",
+    "price": 25.99
+  },
+  {
+    "type": "Livraison 2 jours",
+    "price": 9.99
+  },
+  {
+    "type": "Voie postale",
+    "price": 2.99
+  }
+]
