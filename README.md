@@ -13,6 +13,12 @@ La liaison de propriété `[ ]`vous permet d'utiliser la valeur de la propriét�
 
 `*ngIf` Crée l'élément que si le produit actuel a une description.
 
+`@Component` decorateur
+
+`selecteur`
+
+`app-root`
+
 `(click)="share()"` remplace le onclick du button
 
 ng generate component `name` : créer un dossier avec le html,css et js
@@ -38,5 +44,15 @@ En injectant `ActivatedRoute`, vous configurez le composant pour utiliser un ser
 `ActivatedRouteSnapshotcontient` des informations sur l'itinéraire actif à ce moment précis. L'URL qui correspond à l'itinéraire fournit le fichier `productId`. Angular utilise le `productId` pour afficher les détails de chaque produit unique.
 
 # Partie 3 : Data
+
+`ng generate service`
+
+https://angular.io/guide/architecture-services
+
+`HttpClient`
+
+`HttpClientModule`
+
+`async`
 
 # Partie 4 : Formulaire
