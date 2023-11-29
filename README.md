@@ -1,5 +1,7 @@
 # Partie 1 : Initiation
 
+//TODO
+
 créer une structure automatiquement,
 avec un dossier `src` qui contient `app` et `assets`
 
@@ -31,6 +33,8 @@ name.component.css
 
 # Partie 2 : Routing
 
+//TODO
+
 `path:` définir un itinéraire
 
 [routerLink] La directive `RouterLink` vous aide à personnaliser l'élément d'ancrage. Dans ce cas, l'itinéraire, ou URL, contient un segment fixe, `/products`. Le segment final est variable, insérant la propriété `id` du produit actuel. Par exemple, l'URL d'un produit avec un `id1` serait similaire à https://getting-started-myfork.stackblitz.io/products/1.
@@ -45,6 +49,8 @@ En injectant `ActivatedRoute`, vous configurez le composant pour utiliser un ser
 
 # Partie 3 : Data
 
+//TODO
+
 `ng generate service`
 
 https://angular.io/guide/architecture-services
@@ -56,3 +62,17 @@ https://angular.io/guide/architecture-services
 `async`
 
 # Partie 4 : Formulaire
+
+//TODO
+
+`FormBuilder`
+
+```ts
+onSubmit(): void { this.items = this.cartService.clearCart(); console.warn("Your order has been submitted", this.checkoutForm.value); }
+```
+
+`[formGroup]`
+
+`ngSubmit`
+
+`formControlName`
