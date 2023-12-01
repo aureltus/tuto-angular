@@ -134,6 +134,48 @@ Cette commande effectuera plusieurs actions :
 
 Cette approche de génération de composants avec Angular CLI est très pratique, car elle suit les conventions d'Angular et vous évite d'avoir à créer manuellement les fichiers et de les configurer.
 
+## `@NgModule`
+
+Le décorateur `@NgModule` est utilisé pour définir et configurer les modules. Les modules sont des conteneurs logiques qui regroupent des composants, des directives, des pipes et des services associés.
+
+```ts
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { AppComponent } from "./app.component";
+import { HomeComponent } from "./home/home.component";
+import { AboutComponent } from "./about/about.component";
+import { AppRoutingModule } from "./app-routing.module";
+
+@NgModule({
+  declarations: [
+    // Liste des composants, directives et pipes déclarés dans ce module
+    AppComponent,
+    HomeComponent,
+    AboutComponent,
+  ],
+  imports: [
+    // Liste des modules dont ce module dépend
+    BrowserModule,
+    AppRoutingModule,
+  ],
+  providers: [
+    /* Liste des services disponibles au sein de ce module */
+  ],
+  bootstrap: [AppComponent], // Composant racine à utiliser lors du démarrage de l'application
+})
+export class AppModule {}
+```
+
+- declarations: Cette propriété est utilisée pour déclarer les composants, directives et pipes qui font partie de ce module. Ces éléments seront disponibles pour être utilisés dans les templates de ce module.
+
+- imports: Cette propriété spécifie la liste des modules dont ce module dépend. Par exemple, le module BrowserModule est nécessaire pour les fonctionnalités de base dans les applications web Angular.
+
+- providers: Cette propriété est utilisée pour spécifier les services qui doivent être disponibles dans ce module. Les services fournissent généralement des fonctionnalités partagées entre différents composants.
+
+- bootstrap: Cette propriété spécifie le composant racine de l'application. C'est le composant qui sera automatiquement instancié et rendu lorsque l'application démarre.
+
+Il est important de noter qu'il y a deux types de modules en Angular : le module de la racine de l'application (généralement nommé AppModule) et les modules de fonctionnalités. Chaque module de fonctionnalités peut avoir son propre décorateur @NgModule avec des propriétés similaires pour définir ses composants, directives, pipes, etc.
+
 ## Annotation
 
 - `(click)="share()"`: remplace le `onclick="share()"` du button en javascript
@@ -142,23 +184,130 @@ Cette approche de génération de composants avec Angular CLI est très pratique
 
 # Partie 2 : Routing
 
-//TODO
+Le routage est une fonctionnalité essentielle dans les applications web pour la navigation entre différentes vues ou pages. Dans le contexte d'Angular, le routage est géré par le module de routage intégré.
 
-`path:` définir un itinéraire
+## `path:` définir un itinéraire
 
-[routerLink] La directive `RouterLink` vous aide à personnaliser l'élément d'ancrage. Dans ce cas, l'itinéraire, ou URL, contient un segment fixe, `/products`. Le segment final est variable, insérant la propriété `id` du produit actuel. Par exemple, l'URL d'un produit avec un `id1` serait similaire à https://getting-started-myfork.stackblitz.io/products/1.
+Lors de la configuration du routage dans Angular, "path" fait référence à la partie de l'URL qui est associée à une vue ou un composant particulier. Voici un exemple simple :
 
-`ActivatedRouteest` spécifique à chaque composant chargé par le routeur angulaire. `ActivatedRoutecontient` des informations sur l'itinéraire et les paramètres de l'itinéraire.
+```typescript
+const routes: Routes = [
+  { path: "", component: HomeComponent }, // Le chemin vide correspond à la page d'accueil
+  { path: "about", component: AboutComponent }, // Le chemin '/about' correspond à la page "À propos"
+  { path: "contact", component: ContactComponent }, // Le chemin '/contact' correspond à la page "Contact"
+];
+```
 
-En injectant `ActivatedRoute`, vous configurez le composant pour utiliser un service. L’ étape Gestion des données couvre les services plus en détail.
+Dans cet exemple, chaque objet dans le tableau routes associe un `"path"` à un composant spécifique. Par exemple, lorsque l'URL de l'application est "http://nom-du-projet.com/about", Angular affichera le composant AboutComponent parce que le `"path"` correspondant est `'about'`.
 
-`route.snapshot`
+`"path"` peut également inclure des paramètres dynamiques. Par exemple :
 
-`ActivatedRouteSnapshotcontient` des informations sur l'itinéraire actif à ce moment précis. L'URL qui correspond à l'itinéraire fournit le fichier `productId`. Angular utilise le `productId` pour afficher les détails de chaque produit unique.
+```typescript
+{ path: 'products/:id', component: ProductDetailComponent }
+```
 
-`<router-outlet></router-outlet>`
+Dans ce cas , `'products/:id'` indique qu'il y aura un paramètre id dans l'URL, et Angular peut extraire la valeur de cet identifiant pour afficher les détails du produit correspondant.
 
-`**`
+En résumé, `"path"` est utilisé dans la configuration du routage pour associer des URL spécifiques à des composants particuliers de l'application.
+
+## `[routerLink]`
+
+La directive `[routerLink]` est utilisée dans les templates Angular pour créer des liens de navigation entre différentes vues ou composants dans une application. Elle permet de définir la destination vers laquelle le lien doit rediriger lorsqu'il est cliqué.
+
+- Navigation vers une Route sans Paramètres :
+
+  ```html
+  <a [routerLink]="'/home'">Accueil</a> <a [routerLink]="'/about'">À propos</a>
+  ```
+
+  Ces liens redirigeront vers les routes correspondantes ('/home' et '/about') lorsque l'utilisateur les cliquera.
+
+- Navigation vers une Route avec Paramètres :
+
+  ```html
+  <a [routerLink]="'/product/' + productId">Détails du Produit</a>
+  ```
+
+  Ici, productId est une variable du composant qui contient l'identifiant du produit. Lorsque l'utilisateur clique sur le lien, la route /product/:id sera activée, où :id est remplacé par la valeur de productId.
+
+En résumé, [routerLink] est une directive Angular qui simplifie la création de liens de navigation des templates en utilisant le système de routage d'Angular. Cela permet de définir dynamiquement les destinations des liens en fonction de la logique de l'application.
+
+## `ActivatedRoute`
+
+L'objet `ActivatedRoute` est utilisé pour accéder aux informations de la route active dans votre composant. Il fournit des informations sur la route telle que les paramètres de route, les segments de chemin, les données de route, etc.
+
+```typescript
+import { Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+
+@Component({
+  selector: "app-product-detail",
+  template: `
+    <h2>Détails du Produit</h2>
+    <p>Identifiant du produit : {{ productId }}</p>
+  `,
+})
+export class ProductDetailComponent {
+  productId: string;
+
+  constructor(private route: ActivatedRoute) {
+    // Utilisation de ActivatedRoute de manière déclarative
+    this.productId = this.route.snapshot.paramMap.get("id");
+  }
+}
+```
+
+Dans cet exemple, le constructeur du composant utilise `ActivatedRoute` pour accéder à la `snapshot` de la route active. La propriété paramMap de la `snapshot` est utilisée pour extraire la valeur de l'identifiant du produit à partir des paramètres de la route.
+
+## `route.snapshot`
+
+Dans le contexte d'Angular, une snapshot (ou instantané) fait référence à un état figé d'un objet à un moment donné. Pour l'objet ActivatedRoute, la snapshot représente l'état de la route au moment où le composant associé est créé.
+
+L'objet ActivatedRouteSnapshot est une propriété de l'objet ActivatedRoute qui contient une représentation immuable de l'état de la route au moment où le composant est instancié. Voici comment vous pouvez l'utiliser :
+
+```typescript
+
+  constructor(private route: ActivatedRoute) {
+    // Accéder à la snapshot de la route
+    const snapshot = route.snapshot;
+
+    // Utilisation de la snapshot pour obtenir les paramètres de la route
+    this.productId = snapshot.paramMap.get("id");
+  }
+
+```
+
+`Route.snapshot` donne accès à la `snapshot` de la route.
+utile pour extraire des informations telles que les paramètres de la route (paramMap), les segments de chemin (url), les données associées à la route (data), etc.
+
+La `snapshot` est une représentation figée de l'état de la route au moment de la création du composant. Si la route change après la création du composant, vous devrez utiliser des observables, comme ceux fournis par `ActivatedRoute.paramMap.subscribe()`, pour suivre les changements de la route de manière réactive.
+
+En résumé, la `snapshot` de la route (ActivatedRouteSnapshot) permet d'obtenir des informations immuables sur l'état de la route au moment où le composant est créé.
+
+## `<router-outlet></router-outlet>`
+
+Chaque route est associée à un composant particulier. Lorsque l'utilisateur navigue vers une route spécifique, le composant associé à cette route est chargé et son contenu est rendu à l'intérieur du `<router-outlet>`.
+
+Lorsque l'utilisateur navigue vers une route, le composant associé est chargé et son contenu est rendu dynamiquement à l'intérieur de `<router-outlet>`
+
+## Wildcard
+
+L'utilisation de `**` dans la configuration de routes est associée au "wildcard" (joker) et est souvent utilisée pour capturer toutes les routes qui ne correspondent pas aux routes spécifiques définies auparavant. Cela est particulièrement utile lorsque l'on souhaite gérer les routes inexistantes.
+
+```typescript
+const routes: Routes = [
+  { path: "home", component: HomeComponent },
+  { path: "about", component: AboutComponent },
+  { path: "products/:id", component: ProductDetailComponent },
+  { path: "**", component: PageNotFoundComponent }, // Capture toutes les routes non définies ci-dessus
+];
+```
+
+Les routes spécifiques sont définies en premier, telles que `'home'`, `'about'`, et `'products/:id'`. Ensuite, la route `'**'` avec le composant PageNotFoundComponent est définie en dernier. Cette route avec `**` est un "catch-all" qui sera activée pour toutes les routes qui n'ont pas trouvé de correspondance dans les routes précédentes.
+
+Si l'utilisateur navigue vers une URL qui n'est pas définie, comme `'/unknown-route'`, la route avec `**` sera activée, et le composant `PageNotFoundComponent` sera affiché.
+
+C'est un moyen puissant de gérer les routes inconnues ou non définies. On peut personnaliser `PageNotFoundComponent` pour afficher un message d'erreur ou rediriger l'utilisateur vers une page d'erreur spécifique.
 
 # Partie 3 : Data
 
@@ -191,3 +340,7 @@ onSubmit(): void { this.items = this.cartService.clearCart(); console.warn("Your
 `formControlName`
 
 `[(ngModel)]` est la syntaxe de liaison de données bidirectionnelle
+
+```
+
+```
