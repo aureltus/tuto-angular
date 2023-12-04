@@ -36,11 +36,11 @@ Ces action sont réaliser automatiqument:
 
 Après avoir créé le projet, on peut se rendre dans le répertoire du projet en utilisant la commande `"cd nom-du-projet"` et lancer le serveur de développement avec la commande `"ng serve"`. Cela va compiler le projet et le rendre disponible à l'adresse http://localhost:4200/ par défaut.
 
-## `@Component`
+## @Component
 
 Permet de définir les métadonnées associées à un composant Angular, telles que le sélecteur, les fichiers HTML et CSS associés, et d'autres configurations spécifiques au composant. Ces informations aident Angular à comprendre comment créer, afficher et gérer le composant.
 
-## `selector` :
+## selector :
 
 `selector` est une propriété dans la configuration d'un composant Angular. Elle définit le sélecteur CSS qui identifie une instance du composant dans le HTML parent.
 
@@ -54,7 +54,7 @@ cela signifie qu'on peut utiliser `<app-root></app-root>` dans le HTML parent po
 
 Le sélecteur est un moyen de "sélectionner" une zone du DOM où le composant doit être rendu.
 
-## `templateUrl` :
+## templateUrl :
 
 `templateUrl` est une propriété qui spécifie le chemin vers le fichier HTML qui contient le modèle du composant.
 
@@ -68,7 +68,7 @@ templateUrl: "./app.component.html";
 
 indique qu'il faut utiliser le fichier app.component.html comme modèle pour ce composant.
 
-## `styleUrls` :
+## styleUrls :
 
 `styleUrls` est une propriété qui spécifie un tableau de chemins vers des fichiers de style (CSS) pour le composant.
 
@@ -82,7 +82,7 @@ styleUrls: ["./app.component.css"];
 
 signifie qu'il faut appliquer les styles définis dans le fichier app.component.css au composant.
 
-## `*ngFor` :
+## \*ngFor :
 
 C'est une directive structurelle utilisée pour l'itération sur les éléments d'une collection, comme un tableau ou une liste, afin de créer des éléments DOM répétitifs. Elle est souvent utilisée dans les balises HTML pour générer dynamiquement du contenu en fonction des données.
 
@@ -103,7 +103,7 @@ Dans cet exemple, `{{ nom }}` est une expression Angular qui sera remplacée par
 
 Cela liera la valeur de la variable `nom` à la propriété `value` de la balise `<input>`. Ainsi, lorsque la variable nom change dans le composant, la valeur de l'entrée sera mise à jour en conséquence.
 
-## `*ngIf`
+## \*ngIf
 
 `*ngIf` est une directive structurelle en Angular qui est utilisée pour conditionnellement inclure ou exclure des éléments du DOM (Document Object Model) en fonction d'une expression donnée. En d'autres termes, elle permet de rendre un élément HTML présent ou non dans le rendu final de la page en fonction d'une condition.
 
@@ -134,7 +134,7 @@ Cette commande effectuera plusieurs actions :
 
 Cette approche de génération de composants avec Angular CLI est très pratique, car elle suit les conventions d'Angular et vous évite d'avoir à créer manuellement les fichiers et de les configurer.
 
-## `@NgModule`
+## @NgModule
 
 Le décorateur `@NgModule` est utilisé pour définir et configurer les modules. Les modules sont des conteneurs logiques qui regroupent des composants, des directives, des pipes et des services associés.
 
@@ -186,7 +186,7 @@ Il est important de noter qu'il y a deux types de modules en Angular : le module
 
 Le routage est une fonctionnalité essentielle dans les applications web pour la navigation entre différentes vues ou pages. Dans le contexte d'Angular, le routage est géré par le module de routage intégré.
 
-## `path:` définir un itinéraire
+## Définir un itinéraire
 
 Lors de la configuration du routage dans Angular, "path" fait référence à la partie de l'URL qui est associée à une vue ou un composant particulier. Voici un exemple simple :
 
@@ -210,7 +210,7 @@ Dans ce cas , `'products/:id'` indique qu'il y aura un paramètre id dans l'URL,
 
 En résumé, `"path"` est utilisé dans la configuration du routage pour associer des URL spécifiques à des composants particuliers de l'application.
 
-## `[routerLink]`
+## [routerLink]
 
 La directive `[routerLink]` est utilisée dans les templates Angular pour créer des liens de navigation entre différentes vues ou composants dans une application. Elle permet de définir la destination vers laquelle le lien doit rediriger lorsqu'il est cliqué.
 
@@ -232,7 +232,7 @@ La directive `[routerLink]` est utilisée dans les templates Angular pour créer
 
 En résumé, [routerLink] est une directive Angular qui simplifie la création de liens de navigation des templates en utilisant le système de routage d'Angular. Cela permet de définir dynamiquement les destinations des liens en fonction de la logique de l'application.
 
-## `ActivatedRoute`
+## ActivatedRoute
 
 L'objet `ActivatedRoute` est utilisé pour accéder aux informations de la route active dans votre composant. Il fournit des informations sur la route telle que les paramètres de route, les segments de chemin, les données de route, etc.
 
@@ -259,7 +259,7 @@ export class ProductDetailComponent {
 
 Dans cet exemple, le constructeur du composant utilise `ActivatedRoute` pour accéder à la `snapshot` de la route active. La propriété paramMap de la `snapshot` est utilisée pour extraire la valeur de l'identifiant du produit à partir des paramètres de la route.
 
-## `route.snapshot`
+## route.snapshot
 
 Dans le contexte d'Angular, une snapshot (ou instantané) fait référence à un état figé d'un objet à un moment donné. Pour l'objet ActivatedRoute, la snapshot représente l'état de la route au moment où le composant associé est créé.
 
@@ -284,7 +284,7 @@ La `snapshot` est une représentation figée de l'état de la route au moment de
 
 En résumé, la `snapshot` de la route (ActivatedRouteSnapshot) permet d'obtenir des informations immuables sur l'état de la route au moment où le composant est créé.
 
-## `<router-outlet></router-outlet>`
+## router-outlet
 
 Chaque route est associée à un composant particulier. Lorsque l'utilisateur navigue vers une route spécifique, le composant associé à cette route est chargé et son contenu est rendu à l'intérieur du `<router-outlet>`.
 
@@ -311,35 +311,246 @@ C'est un moyen puissant de gérer les routes inconnues ou non définies. On peut
 
 # Partie 3 : Data
 
-//TODO
+## Service
 
-`ng generate service`
+Un service est une classe qui fournit des fonctionnalités partagées ou des logiques de données à travers différents composants l'application.
 
-https://angular.io/guide/architecture-services
+```bash
+ng generate service nom-du-service
+```
 
-`HttpClient`
+Cette commande va créer un nouveau dossier appelé nom-du-service dans le répertoire de l'application et y placer les fichiers nécessaires pour le service. Par défaut, cela inclut :
 
-`HttpClientModule`
+- Un fichier TypeScript (par exemple, data.service.ts).
+- Un fichier de test (par exemple, data.service.spec.ts).
 
-`async`
+Voici à quoi ressemblerait le fichier TypeScript généré pour le service :
+
+```typescript
+import { Injectable } from "@angular/core";
+
+@Injectable({
+  providedIn: "root",
+})
+export class DataService {
+  constructor() {}
+}
+```
+
+La directive `@Injectable({ providedIn: 'root' })` signifie que le service sera injecté au niveau de l'application (root) et sera accessible dans toute l'application. Vous pouvez également fournir un autre module en spécifiant le nom du module à la place de `'root'` si vous souhaitez restreindre la portée du service à un module spécifique.
+
+Après avoir généré le service, on peut l'injecter dans les composants ou autres services en ajoutant le service dans le constructeur :
+
+```typescript
+import { Component } from "@angular/core";
+import { DataService } from "./path-vers-le-service/data.service";
+
+@Component({
+  selector: "app-mon-composant",
+  template: ` <div>{{ dataService.getData() }}</div> `,
+})
+export class MonComposantComponent {
+  constructor(private dataService: DataService) {}
+}
+```
+
+Dans cet exemple, dataService est une instance de DataService injectée dans le composant MonComposantComponent.
+
+En résumé, la commande `ng generate service` simplifie la création de services dans Angular en générant automatiquement les fichiers nécessaires et en configurant le service de manière à ce qu'il soit injecté correctement dans l'application.
+
+## HttpClient
+
+HttpClient est une classe fournie par Angular qui simplifie la gestion des requêtes HTTP dans une application Angular.
+Elle est utilisée pour effectuer des requêtes HTTP telles que `GET`, `POST`, `PUT`, `DELETE`, etc., vers un serveur distant.
+Elle retourne des objets Observable pour gérer les réponses asynchrones.
+La classe HttpClient est généralement injectée dans les services Angular qui sont responsables de l'interaction avec les API distantes.
+Exemple d'utilisation dans un service Angular :
+
+```typescript
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+
+export class MyService {
+  constructor(private http: HttpClient) {}
+
+  getData(): Observable<any> {
+    return this.http.get("https://api.example.com/data");
+  }
+}
+```
+
+## HttpClientModule
+
+HttpClientModule est un module Angular qui doit être importé dans le module principal de l'application pour pouvoir utiliser HttpClient.
+Il fournit le service HttpClient que les composants et les services de l'application peuvent injecter et utiliser.
+Il configure également certains aspects du comportement d'HttpClient, tels que les intercepteurs, qui permettent de traiter les requêtes et les réponses HTTP avant qu'elles n'atteignent le code qui les a initiées.
+Exemple d'importation dans le module principal (app.module.ts) :
+
+```typescript
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
+import { HttpClientModule } from "@angular/common/http";
+import { AppComponent } from "./app.component";
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    HttpClientModule, // Import du HttpClientModule ici
+  ],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+En résumé, `HttpClient` est la classe principale pour effectuer des requêtes HTTP, tandis que `HttpClientModule` est le module qui fournit cette classe et doit être importé pour pouvoir l'utiliser dans une application Angular.
+
+## Les observables
+
+Les observables sont un concept clé dans la programmation réactive et sont largement utilisés dans Angular pour gérer les flux de données asynchrones. Voici quelques points importants à connaître sur les observables en Angular :
+
+- Asynchronicité :
+
+  Les observables sont utilisés pour traiter des opérations asynchrones, telles que les requêtes HTTP, les événements de l'interface utilisateur, les timers, etc.
+  Ils permettent de traiter des données au fil du temps plutôt que de manière synchrone.
+
+- RxJS :
+
+  Angular utilise la bibliothèque RxJS (Reactive Extensions for JavaScript) pour implémenter le concept des observables.
+  RxJS fournit une API riche pour la manipulation des observables, y compris des opérateurs pour filtrer, mapper, combiner et traiter les données émises par les observables.
+
+- Émission de valeurs :
+
+  Un observable émet des valeurs au fil du temps.
+  Ces valeurs peuvent être émises une fois, plusieurs fois, ou même en continu.
+
+- Abonnement :
+
+  Pour réagir aux valeurs émises par un observable, vous devez vous abonner à cet observable.
+  Un abonnement consiste à fournir une fonction de rappel (callback) qui sera exécutée chaque fois que l'observable émet une nouvelle valeur.
+
+- Exemple d'abonnement à un observable :
+
+  ```typescript
+  import { Observable } from "rxjs";
+
+  const observable = new Observable<number>(observer => {
+    observer.next(1);
+    observer.next(2);
+    observer.complete();
+  });
+
+  const subscription = observable.subscribe(
+    value => console.log(value), // Callback pour les valeurs émises
+    error => console.error(error), // Callback en cas d'erreur
+    () => console.log("Observable completed") // Callback lorsque l'observable est complet
+  );
+
+  // Output : 1, 2, Observable completed
+  ```
+
+- Gestion des erreurs :
+
+  Les observables peuvent émettre des erreurs, et vous pouvez les gérer en fournissant une fonction de gestion des erreurs lors de l'abonnement.
+  Exemple avec gestion d'erreur :
+
+  ```typescript
+  const observableWithError = new Observable<number>(observer => {
+    observer.next(1);
+    observer.error("Something went wrong");
+  });
+
+  const subscriptionWithError = observableWithError.subscribe(
+    value => console.log(value),
+    error => console.error("Error:", error) // Gestion de l'erreur
+  );
+
+  // Output : 1, Error: Something went wrong
+  ```
+
+- Libération des ressources :
+
+  Les observables peuvent être utilisés pour gérer la libération des ressources, par exemple, en se désabonnant lorsqu'un composant Angular est détruit.
+
+- Exemple de désabonnement :
+
+  ```typescript
+  import { Component, OnDestroy } from "@angular/core";
+  import { Observable, Subscription } from "rxjs";
+
+  @Component({
+    selector: "app-my-component",
+    template: "My Component",
+  })
+  export class MyComponent implements OnDestroy {
+    private subscription: Subscription;
+
+    constructor() {
+      const observable = new Observable<number>(observer => {
+        this.subscription = observer.subscribe(value => console.log(value));
+      });
+    }
+
+    ngOnDestroy() {
+      // Se désabonner pour éviter les fuites de mémoire
+      this.subscription.unsubscribe();
+    }
+  }
+  ```
+
+Les observables offrent une manière puissante de gérer les flux de données asynchrones dans Angular, et la compréhension de leur utilisation est essentielle pour le développement d'applications Angular réactives.
+
+## Asynchrone
+
+En Angular, le mot-clé `async` est couramment utilisé en conjonction avec les observables. Les observables sont souvent utilisés pour gérer des opérations asynchrones, telles que les appels `HTTP` ou d'autres opérations qui peuvent prendre du temps.
+
+Voici comment async est généralement utilisé dans le cadre d'Angular :
+
+- Dans les templates :
+
+  On peut utiliser `async` dans les templates Angular pour traiter des valeurs émises par des observables de manière asynchrone. Par exemple, si on a un observable dans un composant, on peut utiliser l'opérateur `async` dans le template pour gérer la mise à jour automatique de la vue lorsque la valeur de l'observable change :
+
+  ```html
+  <div>{{ observableData$ | async }}</div>
+  ```
+
+  Dans cet exemple, `observableData$` est un observable, et l'opérateur `async` s'assure que la vue est mise à jour automatiquement chaque fois que de nouvelles données sont émises par l'observable.
+
+- Dans les fonctions asynchrones :
+
+  On peut également utiliser `async` dans les fonctions TypeScript. Par exemple, dans une fonction Angular qui effectue une opération asynchrone, on peut utiliser le mot-clé `async` pour indiquer que la fonction contient des opérations asynchrones et peut renvoyer une promesse :
+
+  ```typescript
+
+  async fetchData(): Promise<void> {
+    // Opération asynchrone, par exemple un appel HTTP
+    const data = await this.http.get('api/data').toPromise();
+
+    // Suite du traitement après que l'opération asynchrone est terminée
+  }
+  ```
+
+  L'utilisation de `async` dans ce contexte permet d'utiliser l'opérateur `await` pour attendre que des opérations asynchrones, comme les appels `HTTP`, se terminent.
 
 # Partie 4 : Formulaire
 
 //TODO
 
-`FormBuilder`
+## FormBuilder
+
+## onSubmit
 
 ```ts
 onSubmit(): void { this.items = this.cartService.clearCart(); console.warn("Your order has been submitted", this.checkoutForm.value); }
 ```
 
-`[formGroup]`
+## [formGroup]
 
-`ngSubmit`
+## ngSubmit
 
-`formControlName`
+## formControlName
 
-`[(ngModel)]` est la syntaxe de liaison de données bidirectionnelle
+## `[(ngModel)]` est la syntaxe de liaison de données bidirectionnelle
 
 ```
 
