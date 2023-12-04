@@ -1,6 +1,6 @@
 # Partie 1 : Initiation
 
-il faut avoir Node.js et npm installés sur la machine.
+> **Note :** il faut avoir Node.js et npm installés sur la machine.
 
 ## Creation du projet
 
@@ -426,41 +426,41 @@ Les observables sont un concept clé dans la programmation réactive et sont lar
 
 - Abonnement :
 
-  Pour réagir aux valeurs émises par un observable, vous devez vous abonner à cet observable.
+  Pour réagir aux valeurs émises par un observable, on doit s'abonner à cet observable.
   Un abonnement consiste à fournir une fonction de rappel (callback) qui sera exécutée chaque fois que l'observable émet une nouvelle valeur.
 
-- Exemple d'abonnement à un observable :
+  - Exemple d'abonnement à un observable :
 
-  ```typescript
-  import { Observable } from "rxjs";
+    ```typescript
+    import { Observable } from "rxjs";
 
-  const observable = new Observable<number>(observer => {
-    observer.next(1);
-    observer.next(2);
-    observer.complete();
-  });
+    const observable = new Observable<number>(observer => {
+      observer.next(1);
+      observer.next(2);
+      observer.complete();
+    });
 
-  const subscription = observable.subscribe(
-    value => console.log(value), // Callback pour les valeurs émises
-    error => console.error(error), // Callback en cas d'erreur
-    () => console.log("Observable completed") // Callback lorsque l'observable est complet
-  );
+    const subscription = observable.subscribe(
+      value => console.log(value), // Callback pour les valeurs émises
+      error => console.error(error), // Callback en cas d'erreur
+      () => console.log("Observable completed") // Callback lorsque l'observable est complet
+    );
 
-  // Output : 1, 2, Observable completed
-  ```
+    // Output : 1, 2, Observable completed
+    ```
 
 - Gestion des erreurs :
 
-  Les observables peuvent émettre des erreurs, et vous pouvez les gérer en fournissant une fonction de gestion des erreurs lors de l'abonnement.
+  Les observables peuvent émettre des erreurs, et on peut les gérer en fournissant une fonction de gestion des erreurs lors de l'abonnement.
   Exemple avec gestion d'erreur :
 
   ```typescript
-  const observableWithError = new Observable<number>(observer => {
+  const observable = new Observable<number>(observer => {
     observer.next(1);
     observer.error("Something went wrong");
   });
 
-  const subscriptionWithError = observableWithError.subscribe(
+  const subscription = observable.subscribe(
     value => console.log(value),
     error => console.error("Error:", error) // Gestion de l'erreur
   );
@@ -472,31 +472,31 @@ Les observables sont un concept clé dans la programmation réactive et sont lar
 
   Les observables peuvent être utilisés pour gérer la libération des ressources, par exemple, en se désabonnant lorsqu'un composant Angular est détruit.
 
-- Exemple de désabonnement :
+  - Exemple de désabonnement :
 
-  ```typescript
-  import { Component, OnDestroy } from "@angular/core";
-  import { Observable, Subscription } from "rxjs";
+    ```typescript
+    import { Component, OnDestroy } from "@angular/core";
+    import { Observable, Subscription } from "rxjs";
 
-  @Component({
-    selector: "app-my-component",
-    template: "My Component",
-  })
-  export class MyComponent implements OnDestroy {
-    private subscription: Subscription;
+    @Component({
+      selector: "app-my-component",
+      template: "My Component",
+    })
+    export class MyComponent implements OnDestroy {
+      private subscription: Subscription;
 
-    constructor() {
-      const observable = new Observable<number>(observer => {
-        this.subscription = observer.subscribe(value => console.log(value));
-      });
+      constructor() {
+        const observable = new Observable<number>(observer => {
+          this.subscription = observer.subscribe(value => console.log(value));
+        });
+      }
+
+      ngOnDestroy() {
+        // Se désabonner pour éviter les fuites de mémoire
+        this.subscription.unsubscribe();
+      }
     }
-
-    ngOnDestroy() {
-      // Se désabonner pour éviter les fuites de mémoire
-      this.subscription.unsubscribe();
-    }
-  }
-  ```
+    ```
 
 Les observables offrent une manière puissante de gérer les flux de données asynchrones dans Angular, et la compréhension de leur utilisation est essentielle pour le développement d'applications Angular réactives.
 
@@ -538,20 +538,228 @@ Voici comment async est généralement utilisé dans le cadre d'Angular :
 
 ## FormBuilder
 
+FormBuilder est une classe fournie par Angular qui fait partie du module @angular/forms. Elle offre des méthodes de commodité pour la création de groupes de contrôles et de contrôles individuels lors de la construction de formulaires réactifs.
+
+L'utilisation de `FormBuilder` simplifie la création de formulaires réactifs en fournissant des fonctions utilitaires pour créer des instances de FormGroup, FormControl, et d'autres éléments du système de formulaires réactifs.
+
+Voici comment on peut utiliser `FormBuilder` pour créer un formulaire réactif :
+
+Importation dans le module @angular/forms :
+
+```typescript
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+```
+
+FormBuilder dans le constructeur du composant :
+
+```typescript
+constructor(private fb: FormBuilder) { }
+```
+
+FormBuilder pour créer un FormGroup et des FormControl :
+
+```typescript
+// Créez un FormGroup avec des FormControl
+myForm: FormGroup = this.fb.group({
+  name: ["", Validators.required],
+  email: ["", [Validators.required, Validators.email]],
+  // ... autres contrôles
+});
+```
+
+`name` et `email` sont des champs du formulaire, et nous avons appliqué des validateurs (comme Validators.required et Validators.email) pour définir les règles de validation.
+
+Le formulaire dans le modèle HTML :
+
+```html
+<form
+  [formGroup]="myForm"
+  (ngSubmit)="onSubmit()">
+  <label for="name">Name:</label>
+  <input
+    type="text"
+    id="name"
+    formControlName="name" />
+
+  <label for="email">Email:</label>
+  <input
+    type="email"
+    id="email"
+    formControlName="email" />
+
+  <!-- ... autres champs de formulaire -->
+
+  <button
+    type="submit"
+    [disabled]="myForm.invalid">
+    Submit
+  </button>
+</form>
+```
+
+L'utilisation de FormBuilder simplifie la syntaxe pour la création de formulaires réactifs, rend le code plus lisible et aide à éviter des erreurs courantes. Elle est particulièrement utile pour les formulaires complexes où plusieurs champs nécessitent des configurations spécifiques.
+
+En Angular, FormGroup et FormControl sont des classes clés du système de formulaires réactifs. Elles sont utilisées pour construire et gérer des formulaires complexes de manière réactive.
+
+- FormGroup
+
+  FormGroup est une classe qui représente un groupe de contrôles dans un formulaire réactif. Un groupe de contrôles est généralement associé à une section spécifique d'un formulaire. Il peut contenir plusieurs instances de FormControl et/ou d'autres groupes de contrôles (FormGroup imbriqués).
+
+  ```typescript
+  import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+
+  const formBuilder = new FormBuilder();
+
+  const myForm: FormGroup = formBuilder.group({
+    name: ["", Validators.required],
+    email: ["", [Validators.required, Validators.email]],
+    address: formBuilder.group({
+      street: [""],
+      city: [""],
+      zip: [""],
+    }),
+  });
+  ```
+
+  Dans cet exemple, myForm est une instance de FormGroup contenant trois FormControl (pour name, email, et address) et un FormGroup imbriqué pour l'adresse.
+
+- FormControl
+
+  FormControl est une classe qui représente un contrôle individuel dans un formulaire réactif. Il est responsable de la gestion de la valeur du champ de formulaire, des validations, des états tels que la validité et la saleté, ainsi que des événements liés aux changements de valeur.
+
+  ```typescript
+  import { FormControl, Validators } from "@angular/forms";
+
+  const nameControl = new FormControl("", Validators.required);
+  const emailControl = new FormControl("", [
+    Validators.required,
+    Validators.email,
+  ]);
+  const streetControl = new FormControl("");
+
+  // Utilisation de ces contrôles dans un FormGroup
+  const myForm: FormGroup = new FormGroup({
+    name: nameControl,
+    email: emailControl,
+    address: new FormGroup({
+      street: streetControl,
+      city: new FormControl(""),
+      zip: new FormControl(""),
+    }),
+  });
+  ```
+
+  Dans cet exemple, nameControl, emailControl, et streetControl sont des instances de FormControl utilisées dans un FormGroup. Chaque FormControl peut être associé à des validateurs spécifiques, comme Validators.required pour indiquer que le champ ne peut pas être vide.
+
+En résumé, FormGroup représente un groupe de contrôles dans un formulaire, tandis que FormControl représente un contrôle individuel. Ensemble, ils forment la structure de base des formulaires réactifs en Angular.
+
 ## onSubmit
 
-```ts
-onSubmit(): void { this.items = this.cartService.clearCart(); console.warn("Your order has been submitted", this.checkoutForm.value); }
+`onSubmit` est généralement une méthode définie dans un composant Angular qui est appelée lorsque le formulaire est soumis. Cette méthode contient la logique à exécuter lorsque l'utilisateur clique sur le bouton de soumission du formulaire. Voici un exemple typique de l'utilisation de onSubmit dans un composant Angular avec un formulaire réactif :
+
+```typescript
+import { Component } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+
+@Component({
+  selector: "app-my-form",
+  template: `
+    <form
+      [formGroup]="myForm"
+      (ngSubmit)="onSubmit()">
+      <!-- ... Définition des champs de formulaire ... -->
+      <button
+        type="submit"
+        [disabled]="myForm.invalid">
+        Submit
+      </button>
+    </form>
+  `,
+})
+export class MyFormComponent {
+  myForm: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.myForm = this.fb.group({
+      name: ["", Validators.required],
+      email: ["", [Validators.required, Validators.email]],
+      // ... autres contrôles
+    });
+  }
+
+  onSubmit() {
+    if (this.myForm.valid) {
+      // La logique à exécuter lorsque le formulaire est soumis et est valide
+      console.log("Form submitted with values:", this.myForm.value);
+    } else {
+      // La logique à exécuter si le formulaire n'est pas valide
+      console.log("Form is invalid. Please check your inputs.");
+    }
+  }
+}
 ```
 
-## [formGroup]
+`onSubmit` est déclenché lorsque l'utilisateur clique sur le bouton de soumission du formulaire ((ngSubmit)="onSubmit()").
+À l'intérieur de `onSubmit`, on vérifie d'abord si le formulaire est valide en utilisant `this.myForm.valid`.
 
-## ngSubmit
+- Si le formulaire est valide, la logique à exécuter lorsque le formulaire est soumis avec succès est placée à l'intérieur du bloc if.
+- Sinon, si le formulaire n'est pas valide, la logique correspondante est placée à l'intérieur du bloc else.
 
-## formControlName
+C'est une pratique courante pour gérer la soumission de formulaires dans les applications Angular, que ce soit avec des formulaires réactifs ou des formulaires basés sur le modèle.
 
-## `[(ngModel)]` est la syntaxe de liaison de données bidirectionnelle
+- La directive `ngSubmit` est utilisée dans Angular pour écouter l'événement de soumission d'un formulaire. Elle est généralement utilisée dans le contexte de formulaires réactifs ou de formulaires basés sur le modèle.
 
+## Liaison de données bidirectionnelle
+
+La directive `[(ngModel)]` est utilisée dans Angular pour établir une liaison bidirectionnelle entre les propriétés d'un élément du formulaire dans le modèle du composant et la valeur de cet élément dans le modèle du formulaire (la vue). Cela permet une synchronisation automatique des données entre la vue et le modèle du composant.
+
+La plupart du temps, `[(ngModel)]` est utilisé dans le contexte de formulaires basés sur le modèle, une des deux approches de gestion des formulaires en Angular.
+
+Voici comment `[(ngModel)]` est généralement utilisé dans un formulaire :
+
+```html
+<form>
+  <label for="name">Name:</label>
+  <input
+    type="text"
+    id="name"
+    name="name"
+    [(ngModel)]="user.name" />
+
+  <label for="email">Email:</label>
+  <input
+    type="email"
+    id="email"
+    name="email"
+    [(ngModel)]="user.email" />
+
+  <!-- ... autres champs de formulaire ... -->
+
+  <button
+    type="submit"
+    (click)="onSubmit()">
+    Submit
+  </button>
+</form>
 ```
 
-```
+- `[(ngModel)]="user.name"` : Cette liaison bidirectionnelle signifie que la propriété name du modèle du composant (généralement définie dans la classe TypeScript associée) est liée à la valeur de l'élément d'entrée avec l'ID name dans la vue.
+- `[(ngModel)]="user.email"` : De manière similaire, la propriété email du modèle du composant est liée à la valeur de l'élément d'entrée avec l'ID email.
+
+  <sub>Dans le composant associé :<sub>
+
+  ```typescript
+  export class MyFormComponent {
+    user = {
+      name: "",
+      email: "",
+    };
+
+    onSubmit() {
+      // La logique à exécuter lorsque le formulaire est soumis
+      console.log("Form submitted with values:", this.user);
+    }
+  }
+  ```
+
+Dans ce composant, `[(ngModel)]` permet une liaison bidirectionnelle entre les propriétés user.name et user.email du modèle du composant et les champs de formulaire correspondants dans la vue. Lorsque l'utilisateur modifie la valeur dans les champs de formulaire, les propriétés du modèle du composant sont automatiquement mises à jour, et vice versa.
